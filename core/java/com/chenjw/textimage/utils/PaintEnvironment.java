@@ -28,8 +28,13 @@ public abstract class PaintEnvironment {
 
 	private final static Logger LOGGER = LoggerFactory
 			.getLogger("textImageLogger");
-	public static final FontRenderContext FONT_RENDER_CONTEXT;
-	public static final Set<String> SUPPORTED_FONTNAME;
+	private static final FontRenderContext FONT_RENDER_CONTEXT;
+
+	public static FontRenderContext getDefaultFontRenderContext() {
+		return FONT_RENDER_CONTEXT;
+	}
+
+	private static final Set<String> SUPPORTED_FONTNAME;
 
 	/**
 	 * 判断当前环境是否支持某字体
@@ -46,7 +51,7 @@ public abstract class PaintEnvironment {
 	 * 
 	 * @param path
 	 */
-	private static void loadFont(String path) {
+	public static void loadFont(String path) {
 		InputStream in = null;
 		try {
 			in = PaintEnvironment.class.getClassLoader().getResourceAsStream(
@@ -90,7 +95,7 @@ public abstract class PaintEnvironment {
 			SUPPORTED_FONTNAME.add(font.getFontName());
 		}
 		// 宋体
-		loadFont("com/alibaba/china/credit/profile/textimage/utils/simsun.ttc");
-		loadFont("com/alibaba/china/credit/profile/textimage/utils/tahoma.ttf");
+		loadFont("com/chenjw/textimage/utils/simsun.ttc");
+		loadFont("com/chenjw/textimage/utils/tahoma.ttf");
 	}
 }

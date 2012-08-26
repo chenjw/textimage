@@ -10,8 +10,10 @@
 	<classpathentry kind="lib" path="/knife.core/lib/aspectjweaver.jar"/>
 	<classpathentry kind="lib" path="/knife.core/lib/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="lib" path="/knife.core/lib/sourceforge.spring-2.5.6-sources.zip"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/knife.agent"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/knife.core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/knife.server"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/textimage.core"/>
+	<classpathentry kind="lib" path="/textimage.core/lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="/textimage.core/lib/jakarta.velocity-1.6.1-sources.jar"/>
+	<classpathentry kind="lib" path="/textimage.core/lib/jakarta.velocity-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/textimage.core/lib/commons-io-1.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

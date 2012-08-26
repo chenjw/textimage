@@ -5,17 +5,22 @@
  */
 package com.chenjw.textimage.service;
 
+import java.io.OutputStream;
+
 import com.chenjw.textimage.exception.TextImageException;
-import com.chenjw.textimage.service.model.TextImageContext;
 
 /**
- * 文字图片构建器接口，实现了文字和画布上构建的逻辑
+ * 画布接口
  * 
- * @author chenjw 2011-11-14 下午5:06:42
+ * @author chenjw 2011-11-14 下午4:59:47
  */
-public interface TextImageBuilder {
+public interface TextCanvas {
 
-	public void buildImage(TextImageContext context, TextImagePainter painter)
-			throws TextImageException;
+	/**
+	 * 生成图片
+	 * 
+	 * @param os
+	 */
+	public void buildImage(OutputStream os) throws TextImageException;
 
 }

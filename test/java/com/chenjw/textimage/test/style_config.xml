@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style-config>
+	<max-canvas-width>800</max-canvas-width>
+	<max-canvas-height>600</max-canvas-height>
+	<!-- if the key not config , default style will be used. -->
+	<class id="default" >
+		<font-name>宋体</font-name>
+		<font-size>14</font-size>
+		<is-bold>false</is-bold>
+		<is-italic>false</is-italic>
+		<is-antialias>false</is-antialias>
+		<color>red</color>
+		<background-color>green</background-color>
+	</class>
+
+	<class id="green" >
+		<font-name>宋体</font-name>
+		<font-size>14</font-size>
+		<line-height>22</line-height>
+		<line-width>100</line-width>
+		<h-align>CENTER</h-align>
+		<v-align>CENTER</v-align>
+		<is-bold>false</is-bold>
+		<is-italic>false</is-italic>
+		<is-antialias>false</is-antialias>
+		<color>blue</color>
+	</class>
+	
+	<mapping key="name" class="green"/>
+	<position key="name" x="30" y="0" />
+	<!-- mapping key="msg" class="green"/-->
+	<position key="msg" x="0" y="100" />
+	<mapping key="address" class="green"/>
+	
+</style-config>

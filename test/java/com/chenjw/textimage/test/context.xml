@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GB2312"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
+	default-autowire="byName">
+
+	<bean id="textImageService" class="com.chenjw.textimage.service.impl.TextImageServiceImpl" />
+	
+	<bean id="testImageStore" class="com.chenjw.textimage.service.impl.LocalFolderImageStore" />
+	
+	<bean id="textImageBuilder" class="com.chenjw.textimage.service.impl.TextImageBuilderImpl" />
+	
+	<bean id="textImagePainter" class="com.chenjw.textimage.service.impl.TextImagePainterImpl" />
+</beans>
