@@ -1,15 +1,12 @@
-/*
- * Copyright 1999-2011 Alibaba.com All right reserved. This software is the confidential and proprietary information of
- * Alibaba.com ("Confidential Information"). You shall not disclose such Confidential Information and shall use it only
- * in accordance with the terms of the license agreement you entered into with Alibaba.com.
- */
 package com.chenjw.textimage.service.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 文本字段元数据
+ * 某一个字段的元数据<br>
+ * 每个字段都可以设置自己的最大宽度，超过最大宽度后会根据最大宽度分割成多个TextLine <br>
+ * 如无需分割，请不要设置样式中的lineWidth属性
  * 
  * @author chenjw
  */

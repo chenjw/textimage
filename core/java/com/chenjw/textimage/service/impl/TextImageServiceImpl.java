@@ -1,8 +1,3 @@
-/*
- * Copyright 1999-2011 Alibaba.com All right reserved. This software is the confidential and proprietary information of
- * Alibaba.com ("Confidential Information"). You shall not disclose such Confidential Information and shall use it only
- * in accordance with the terms of the license agreement you entered into with Alibaba.com.
- */
 package com.chenjw.textimage.service.impl;
 
 import java.util.ArrayList;
@@ -12,26 +7,26 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.chenjw.textimage.config.StyleConfig;
-import com.chenjw.textimage.config.TextStyle;
-import com.chenjw.textimage.constants.TextImageConstants;
-import com.chenjw.textimage.exception.TextImageException;
-import com.chenjw.textimage.service.TextImageBuilder;
-import com.chenjw.textimage.service.TextImagePainter;
+import com.chenjw.logger.Logger;
 import com.chenjw.textimage.service.TextImageService;
-import com.chenjw.textimage.service.TextImageStore;
-import com.chenjw.textimage.service.TextUrlCache;
+import com.chenjw.textimage.service.config.StyleConfig;
+import com.chenjw.textimage.service.config.TextStyle;
+import com.chenjw.textimage.service.constants.TextImageConstants;
+import com.chenjw.textimage.service.exception.TextImageException;
+import com.chenjw.textimage.service.graphic.java2d.PaintEnvironment;
 import com.chenjw.textimage.service.model.TextImageContext;
 import com.chenjw.textimage.service.model.TextImageInfo;
 import com.chenjw.textimage.service.model.TextMetaInfo;
 import com.chenjw.textimage.service.model.TextUrlInfo;
-import com.chenjw.textimage.utils.Helper;
-import com.chenjw.textimage.utils.PaintEnvironment;
-import com.chenjw.textimage.utils.Profiler;
-import com.chenjw.textimage.utils.logger.Logger;
+import com.chenjw.textimage.service.spi.TextImageBuilder;
+import com.chenjw.textimage.service.spi.TextImagePainter;
+import com.chenjw.textimage.service.spi.TextImageStore;
+import com.chenjw.textimage.service.spi.TextUrlCache;
+import com.chenjw.textimage.service.utils.Profiler;
+import com.chenjw.textimage.service.utils.TextImageUtils;
 
 /**
- * 文字图片服务实现，实现了图片的渲染和存储功能(图片银行)
+ * 文字图片服务（对外暴露）实现
  * 
  * @author chenjw
  */
@@ -46,7 +41,6 @@ public class TextImageServiceImpl implements TextImageService {
 	// 图像绘制器
 	private TextImagePainter textImagePainter;
 
-	@Override
 	public TextImageInfo buildImage(Map<String, String> textMap,
 			StyleConfig styleConfig) throws TextImageException {
 		try {
@@ -66,7 +60,7 @@ public class TextImageServiceImpl implements TextImageService {
 			// 验证参数
 			verifyAndPrepareParam(textMap, styleConfig);
 			// 生成版本号
-			String version = Helper.getVersion(textMap,
+			String version = TextImageUtils.getVersion(textMap,
 					styleConfig.getStyleVersion());
 			// 从缓存中查询文字图片元数据
 			TextUrlInfo textInfo = queryTextUrlFromCache(key);
@@ -109,7 +103,7 @@ public class TextImageServiceImpl implements TextImageService {
 		if (StringUtils.isBlank(str)) {
 			return null;
 		}
-		return Helper.unmarshalTextUrlInfo(str);
+		return TextImageUtils.unmarshalTextUrlInfo(str);
 	}
 
 	/**
@@ -122,7 +116,7 @@ public class TextImageServiceImpl implements TextImageService {
 		if (textUrlCache == null) {
 			return;
 		}
-		String str = Helper.marshalTextUrlInfo(textUrl);
+		String str = TextImageUtils.marshalTextUrlInfo(textUrl);
 		textUrlCache.putTextUrl(key, str);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("[cache]put " + key + " " + str);
@@ -222,7 +216,7 @@ public class TextImageServiceImpl implements TextImageService {
 			// 存储图片
 			List<String> urls = new ArrayList<String>();
 			for (byte[] bytes : textImage.getImageList()) {
-				String url = storeImage(bytes);
+				String url = testImageStore.storeImage(bytes);
 				urls.add(url);
 			}
 			TextUrlInfo textUrlInfo = new TextUrlInfo();
@@ -234,7 +228,12 @@ public class TextImageServiceImpl implements TextImageService {
 			if (oldUrlList != null) {
 				// 删除图片
 				for (String url : oldUrlList) {
-					testImageStore.dropImage(url);
+					try {
+						testImageStore.dropImage(url);
+					} catch (Exception e) {
+						LOGGER.error("drop image fail, url=" + url, e);
+					}
+
 				}
 			}
 			if (LOGGER.isDebugEnabled()) {
@@ -243,10 +242,6 @@ public class TextImageServiceImpl implements TextImageService {
 			}
 			return textUrlInfo;
 		}
-	}
-
-	private String storeImage(byte[] bytes) {
-		return testImageStore.storeImage(bytes);
 	}
 
 	/**

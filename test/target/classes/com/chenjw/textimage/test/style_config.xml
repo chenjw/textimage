@@ -6,6 +6,8 @@
 	<class id="default" >
 		<font-name>宋体</font-name>
 		<font-size>14</font-size>
+		<line-height>30</line-height>
+		<line-width>200</line-width>
 		<is-bold>false</is-bold>
 		<is-italic>false</is-italic>
 		<is-antialias>false</is-antialias>
@@ -16,8 +18,8 @@
 	<class id="green" >
 		<font-name>宋体</font-name>
 		<font-size>14</font-size>
-		<line-height>22</line-height>
-		<line-width>100</line-width>
+		<line-height>30</line-height>
+		<line-width>200</line-width>
 		<h-align>CENTER</h-align>
 		<v-align>CENTER</v-align>
 		<is-bold>false</is-bold>
@@ -31,5 +33,6 @@
 	<!-- mapping key="msg" class="green"/-->
 	<position key="msg" x="0" y="100" />
 	<mapping key="address" class="green"/>
+	<position key="address" x="0" y="200" />
 	
 </style-config>

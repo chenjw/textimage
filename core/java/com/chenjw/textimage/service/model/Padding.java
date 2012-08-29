@@ -1,5 +1,11 @@
 package com.chenjw.textimage.service.model;
 
+/**
+ * 文字内容与边框之间的边距
+ * 
+ * @author chenjw
+ * 
+ */
 public class Padding {
 	private int left = 0;
 	private int right = 0;

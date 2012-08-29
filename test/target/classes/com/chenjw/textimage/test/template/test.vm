@@ -26,7 +26,7 @@
 #end
 <p>原始图片：</p>
 #foreach($url in $textUrlInfo.urls)
-	<img src="$!{url}"/>
+	<img src="$!{url}" style="border:medium solid red;"/>
 #end
 </body>
 </html>

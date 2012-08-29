@@ -3,10 +3,16 @@ package com.chenjw.textimage.service.model;
 import java.util.List;
 import java.util.Map;
 
-import com.chenjw.textimage.config.StyleConfig;
-import com.chenjw.textimage.fillstrategy.CanvasInfo;
-import com.chenjw.textimage.service.TextCanvas;
+import com.chenjw.textimage.service.config.StyleConfig;
+import com.chenjw.textimage.service.fillstrategy.result.CanvasInfo;
+import com.chenjw.textimage.service.spi.TextCanvas;
 
+/**
+ * 文字处理过程中的上下文
+ * 
+ * @author chenjw
+ * 
+ */
 public class TextImageContext {
 	// 输入文本
 	private Map<String, String> textMap;
@@ -18,8 +24,7 @@ public class TextImageContext {
 	private List<CanvasInfo> canvasInfoList;
 	// 输出画布
 	private List<TextCanvas> textCanvasList;
-
-	//
+	// 生成的图片数据
 	private List<byte[]> imageList;
 
 	public Map<String, String> getTextMap() {

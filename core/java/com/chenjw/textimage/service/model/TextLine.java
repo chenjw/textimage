@@ -1,8 +1,3 @@
-/*
- * Copyright 1999-2011 Alibaba.com All right reserved. This software is the confidential and proprietary information of
- * Alibaba.com ("Confidential Information"). You shall not disclose such Confidential Information and shall use it only
- * in accordance with the terms of the license agreement you entered into with Alibaba.com.
- */
 package com.chenjw.textimage.service.model;
 
 /**
@@ -22,7 +17,7 @@ public class TextLine {
 	private int width;
 	// 高度
 	private int height;
-	// 内边距，如果为null表示内边距都为0
+	// 内边距，如果为null表示内边距都为0，该字段为生成图片过程中使用，服务结果返回的模型中这个字段为Null。
 	private Padding padding;
 
 	public int getImageIndex() {
