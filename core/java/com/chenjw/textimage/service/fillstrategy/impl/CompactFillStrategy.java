@@ -40,7 +40,7 @@ public class CompactFillStrategy implements FillStrategy {
 	public FillResult tryFillCanvas(TextMetaInfo textInfo,
 			StyleConfig styleConfig) {
 		FillResult result = new FillResult();
-		int maxCanvasHeight = styleConfig.getMaxCanvasHeight();
+		int maxCanvasHeight = styleConfig.getCanvasHeight();
 		// 所有textLine取出来，算出最高的
 		// 在这里用set过滤掉指向相同文本的textLine，相同文字的图片块在画布上只绘制一次
 		Set<TextLine> textLineList = new HashSet<TextLine>();
@@ -122,7 +122,7 @@ public class CompactFillStrategy implements FillStrategy {
 			}
 		}
 		// 2.计算小于画布限宽的出现最多行宽整数倍的值
-		return styleConfig.getMaxCanvasWidth() / mostLineWidth * mostLineWidth;
+		return styleConfig.getCanvasWidth() / mostLineWidth * mostLineWidth;
 	}
 
 	/**

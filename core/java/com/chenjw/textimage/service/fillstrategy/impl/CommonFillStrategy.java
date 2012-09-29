@@ -29,8 +29,8 @@ public class CommonFillStrategy implements FillStrategy {
 	public FillResult tryFillCanvas(TextMetaInfo textInfo,
 			StyleConfig styleConfig) throws TextImageException {
 		FillResult result = new FillResult();
-		int maxCanvasWidth = styleConfig.getMaxCanvasWidth();
-		int maxCanvasHeight = styleConfig.getMaxCanvasHeight();
+		int maxCanvasWidth = styleConfig.getCanvasWidth();
+		int maxCanvasHeight = styleConfig.getCanvasHeight();
 		List<CanvasInfo> canvasList = new ArrayList<CanvasInfo>();
 		// 这个实现很烂，待优化
 		// 当前位置

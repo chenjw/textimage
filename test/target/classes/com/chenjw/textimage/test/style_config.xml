@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <style-config>
-	<max-canvas-width>800</max-canvas-width>
-	<max-canvas-height>600</max-canvas-height>
+	<is-fix-size>true</is-fix-size>
+	<canvas-width>1171</canvas-width>
+	<canvas-height>405</canvas-height>
+	<background-image>/com/chenjw/textimage/test/background.png</background-image>
 	<!-- if the key not config , default style will be used. -->
 	<class id="default" >
 		<font-name>宋体</font-name>

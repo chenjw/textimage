@@ -6,6 +6,7 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.io.IOUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,18 +45,40 @@ public class ConfigParser {
 	}
 
 	private static void parseConfig(StyleConfig styleConfig, Element doc) {
-		NodeList list = doc.getElementsByTagName("max-canvas-width");
+		NodeList list = doc.getElementsByTagName("is-fix-size");
+
 		if (list.getLength() > 0) {
-			styleConfig.setMaxCanvasWidth(Integer.parseInt(list.item(0)
+			styleConfig.setIsFixSize(Boolean.parseBoolean(list.item(0)
+					.getTextContent()));
+		}
+		list = doc.getElementsByTagName("canvas-width");
+		if (list.getLength() > 0) {
+			styleConfig.setCanvasWidth(Integer.parseInt(list.item(0)
 					.getTextContent()));
 		}
 
-		list = doc.getElementsByTagName("max-canvas-height");
+		list = doc.getElementsByTagName("canvas-height");
 		if (list.getLength() > 0) {
-			styleConfig.setMaxCanvasHeight(Integer.parseInt(list.item(0)
+			styleConfig.setCanvasHeight(Integer.parseInt(list.item(0)
 					.getTextContent()));
 		}
-
+		list = doc.getElementsByTagName("background-color");
+		if (list.getLength() > 0) {
+			styleConfig.setBackgroundColor(parseColor(list.item(0)
+					.getTextContent()));
+		}
+		list = doc.getElementsByTagName("background-image");
+		if (list.getLength() > 0) {
+			String url = list.item(0).getTextContent();
+			InputStream is = ConfigParser.class.getResourceAsStream(url);
+			try {
+				styleConfig.setBackgroundImage(IOUtils.toByteArray(is));
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				IOUtils.closeQuietly(is);
+			}
+		}
 	}
 
 	private static void parseClasses(StyleConfig styleConfig, Element doc) {

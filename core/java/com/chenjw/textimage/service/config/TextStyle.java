@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import com.chenjw.textimage.service.config.constants.HAlignEnum;
 import com.chenjw.textimage.service.config.constants.VAlignEnum;
+import com.chenjw.textimage.service.constants.TextImageConstants;
 
 /**
  * 某一段文字的样式
@@ -12,13 +13,8 @@ import com.chenjw.textimage.service.config.constants.VAlignEnum;
  */
 public class TextStyle {
 
-	// 默认样式的字体名称
-	private static final String DEFAULT_FONT_NAME = "宋体";
-
-	public static final int LINE_SIZE_UNLIMIT = -1;
-
 	// 字体名
-	private String fontName = DEFAULT_FONT_NAME;
+	private String fontName = TextImageConstants.DEFAULT_FONT_NAME;
 	// 字体尺寸
 	private int fontSize = 14;
 
@@ -30,9 +26,9 @@ public class TextStyle {
 	// 是否抗锯齿模式
 	private boolean isAntialias = false;
 	// 行高
-	private int lineHeight = LINE_SIZE_UNLIMIT;
+	private int lineHeight = TextImageConstants.SIZE_NOT_SET;
 	// 行宽
-	private int lineWidth = LINE_SIZE_UNLIMIT;
+	private int lineWidth = TextImageConstants.SIZE_NOT_SET;
 	// 左右居中方式
 	private HAlignEnum hAlign = HAlignEnum.LEFT;
 	// 上下居中方式

@@ -6,10 +6,13 @@ import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
 
 import com.chenjw.textimage.service.config.StyleConfig;
 import com.chenjw.textimage.service.config.StyleConfigHelper;
@@ -24,19 +27,58 @@ public class Java2dCanvas implements TextCanvas {
 	private BufferedImage image;
 	private Graphics2D g;
 
-	Java2dCanvas(StyleConfig config, int width, int height) {
-		if (TextImageConstants.IS_USE_TRANSLUCENT) {
-			image = GraphicsEnvironment
-					.getLocalGraphicsEnvironment()
-					.getDefaultScreenDevice()
-					.getDefaultConfiguration()
-					.createCompatibleImage(width, height,
-							Transparency.TRANSLUCENT);
+	public Java2dCanvas(StyleConfig config, int width, int height) {
+		// 计算画布尺寸
+		int h;
+		int w;
+		if (config.getIsFixSize()) {
+			w = config.getCanvasWidth();
+			h = config.getCanvasHeight();
 		} else {
-			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			w = width;
+			h = height;
+		}
+		boolean isUseTranslucent = false;
+		if (config.getBackgroundColor() == null
+				&& config.getBackgroundImage() == null) {
+			isUseTranslucent = true;
+		}
+		// 创建image
+		/**
+		 * 背景样式显示规则
+		 * <ul>
+		 * <li>1. 优先使用backgroundImage的值</li>
+		 * <li>2. 如果backgroundImage为null使用backgroundColor的值</li>
+		 * <li>3. 如果backgroundColor为null使用透明背景</li>
+		 * </ul>
+		 * **/
+		// 是否透明
+		if (isUseTranslucent) {
+			image = GraphicsEnvironment.getLocalGraphicsEnvironment()
+					.getDefaultScreenDevice().getDefaultConfiguration()
+					.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+		} else {
+			image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		}
 
 		g = (Graphics2D) image.getGraphics();
+		// 绘制背景
+		if (config.getBackgroundImage() != null) {
+			ByteArrayInputStream bais = new ByteArrayInputStream(
+					config.getBackgroundImage());
+
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(bais);
+			} catch (IOException e) {
+			} finally {
+				IOUtils.closeQuietly(bais);
+			}
+			g.drawImage(img, 0, 0, img.getWidth(), img.getHeight(), null);
+		} else if (config.getBackgroundColor() != null) {
+			g.setBackground(config.getBackgroundColor());
+			g.clearRect(0, 0, w, h);
+		}
 	}
 
 	@Override

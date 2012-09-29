@@ -18,6 +18,7 @@ import com.chenjw.textimage.service.config.TextPosition;
 import com.chenjw.textimage.service.config.TextStyle;
 import com.chenjw.textimage.service.config.constants.HAlignEnum;
 import com.chenjw.textimage.service.config.constants.VAlignEnum;
+import com.chenjw.textimage.service.constants.TextImageConstants;
 import com.chenjw.textimage.service.exception.TextImageException;
 import com.chenjw.textimage.service.model.Padding;
 import com.chenjw.textimage.service.model.TextLine;
@@ -50,7 +51,7 @@ public class Java2dTextImagePainterImpl implements TextImagePainter {
 		while (lineBreakMeasurer.getPosition() < text.length()) {
 			int start = lineBreakMeasurer.getPosition();
 			int lineWidth = style.getLineWidth();
-			if (lineWidth == TextStyle.LINE_SIZE_UNLIMIT) {
+			if (lineWidth == TextImageConstants.SIZE_NOT_SET) {
 				lineWidth = Integer.MAX_VALUE;
 			}
 			TextLayout layout = lineBreakMeasurer.nextLayout(lineWidth);
@@ -65,13 +66,13 @@ public class Java2dTextImagePainterImpl implements TextImagePainter {
 
 			TextLine textLine = new TextLine();
 			// 宽度使用计算的宽度
-			if (style.getLineWidth() == TextStyle.LINE_SIZE_UNLIMIT) {
+			if (style.getLineWidth() == TextImageConstants.SIZE_NOT_SET) {
 				textLine.setWidth(textWidth);
 			} else {
 				textLine.setWidth(style.getLineWidth());
 			}
 			// 高度使用设定
-			if (style.getLineHeight() == TextStyle.LINE_SIZE_UNLIMIT) {
+			if (style.getLineHeight() == TextImageConstants.SIZE_NOT_SET) {
 				textLine.setHeight(textHeight);
 			} else {
 				textLine.setHeight(style.getLineHeight());
@@ -88,7 +89,7 @@ public class Java2dTextImagePainterImpl implements TextImagePainter {
 		Padding padding = new Padding();
 		// height
 		int lineHeight = style.getLineHeight();
-		if (lineHeight == TextStyle.LINE_SIZE_UNLIMIT) {
+		if (lineHeight == TextImageConstants.SIZE_NOT_SET) {
 			padding.setTop(0);
 			padding.setBottom(0);
 		} else {
@@ -109,7 +110,7 @@ public class Java2dTextImagePainterImpl implements TextImagePainter {
 
 		// width
 		int lineWidth = style.getLineWidth();
-		if (lineWidth == TextStyle.LINE_SIZE_UNLIMIT) {
+		if (lineWidth == TextImageConstants.SIZE_NOT_SET) {
 			padding.setLeft(0);
 			padding.setRight(0);
 
