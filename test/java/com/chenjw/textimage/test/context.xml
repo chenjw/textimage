@@ -6,12 +6,12 @@
 	default-autowire="byName">
 
 	<bean id="textImageService" class="com.chenjw.textimage.service.impl.TextImageServiceImpl" >
-		<property name="testImageStore" ref="testImageStore"></property>
+		<property name="textImageStore" ref="textImageStore"></property>
 		<property name="textImageBuilder" ref="textImageBuilder"></property>
 		<property name="textImagePainter" ref="textImagePainter"></property>
 	</bean>
 	
-	<bean id="testImageStore" class="com.chenjw.textimage.service.store.LocalFolderImageStoreImpl" />
+	<bean id="textImageStore" class="com.chenjw.textimage.service.store.LocalFolderImageStoreImpl" />
 	
 	<bean id="textImageBuilder" class="com.chenjw.textimage.service.builder.TextImageBuilderImpl" />
 	

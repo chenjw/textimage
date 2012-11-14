@@ -35,7 +35,7 @@ public class TextImageServiceImpl implements TextImageService {
 	// 图片文字元数据缓存
 	private TextUrlCache textUrlCache;
 	// 图片银行上传服务
-	private TextImageStore testImageStore;
+	private TextImageStore textImageStore;
 	// 图像构建器
 	private TextImageBuilder textImageBuilder;
 	// 图像绘制器
@@ -216,7 +216,7 @@ public class TextImageServiceImpl implements TextImageService {
 			// 存储图片
 			List<String> urls = new ArrayList<String>();
 			for (byte[] bytes : textImage.getImageList()) {
-				String url = testImageStore.storeImage(bytes);
+				String url = textImageStore.storeImage(bytes);
 				urls.add(url);
 			}
 			TextUrlInfo textUrlInfo = new TextUrlInfo();
@@ -229,7 +229,7 @@ public class TextImageServiceImpl implements TextImageService {
 				// 删除图片
 				for (String url : oldUrlList) {
 					try {
-						testImageStore.dropImage(url);
+						textImageStore.dropImage(url);
 					} catch (Exception e) {
 						LOGGER.error("drop image fail, url=" + url, e);
 					}
@@ -283,8 +283,8 @@ public class TextImageServiceImpl implements TextImageService {
 		this.textUrlCache = textUrlCache;
 	}
 
-	public void setTestImageStore(TextImageStore testImageStore) {
-		this.testImageStore = testImageStore;
+	public void setTextImageStore(TextImageStore textImageStore) {
+		this.textImageStore = textImageStore;
 	}
 
 }

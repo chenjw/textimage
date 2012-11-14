@@ -1,11 +1,11 @@
 package com.chenjw.textimage.service.graphic.java2d;
 
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
-import java.awt.Transparency;
 import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,12 +51,10 @@ public class Java2dCanvas implements TextCanvas {
 		 * <li>2. 如果backgroundImage为null使用backgroundColor的值</li>
 		 * <li>3. 如果backgroundColor为null使用透明背景</li>
 		 * </ul>
-		 * **/
+		 **/
 		// 是否透明
 		if (isUseTranslucent) {
-			image = GraphicsEnvironment.getLocalGraphicsEnvironment()
-					.getDefaultScreenDevice().getDefaultConfiguration()
-					.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+			image = createCompatibleImage(w, h);
 		} else {
 			image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		}
@@ -79,6 +77,12 @@ public class Java2dCanvas implements TextCanvas {
 			g.setBackground(config.getBackgroundColor());
 			g.clearRect(0, 0, w, h);
 		}
+	}
+
+	private BufferedImage createCompatibleImage(int w, int h) {
+		ColorModel cm = ColorModel.getRGBdefault();
+		WritableRaster wr = cm.createCompatibleWritableRaster(w, h);
+		return new BufferedImage(cm, wr, cm.isAlphaPremultiplied(), null);
 	}
 
 	@Override
