@@ -1,0 +1,32 @@
+#macro( showText $key)
+	#set ($textField=$textUrlInfo.textMetaInfo.textFieldMap.get($key))
+	#if($textField)
+		#foreach($textLine in $textField.textLines)
+			#set ($i=$textLine.imageIndex+1)
+			<p class="text-image-pic$!{i} sub-txt" style="border:medium solid red;background-position:-$!{textLine.x}px -$!{textLine.y}px;width:$!{textLine.width}px;height:$!{textLine.height}px;">
+			</p>
+		#end
+	#end
+#end
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>test page</title>
+<style type="text/css">
+	#foreach($url in $textUrlInfo.urls)
+		.text-image-pic${velocityCount} {background-image:url($!{url});}
+	#end
+</style>
+</head>
+<body>
+#foreach($key in $textUrlInfo.textMetaInfo.textFieldMap.keySet())
+	<p>${key}</p>
+	<p>#showText($key)</p>
+#end
+<p>原始图片：</p>
+#foreach($url in $textUrlInfo.urls)
+	<img src="$!{url}" style="border:medium solid red;"/>
+#end
+</body>
+</html>

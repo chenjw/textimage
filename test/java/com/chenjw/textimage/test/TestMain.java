@@ -108,15 +108,27 @@ public class TestMain {
 
 	public static void main(String[] args) throws IOException,
 			TextImageException {
+		long start = System.currentTimeMillis();
 		XmlWebApplicationContext context = new XmlWebApplicationContext();
 		context.setConfigLocation("classpath:com/chenjw/textimage/test/context.xml");
 		context.refresh();
+		System.out.println("init use " + (System.currentTimeMillis() - start)
+				+ " ms");
+		// while(true){
+		start = System.currentTimeMillis();
 		StyleConfig styleConfig = readStyleConfig("com/chenjw/textimage/test/style_config.xml");
 		Map<String, String> data = readData("com/chenjw/textimage/test/data.properties");
 		TextImageService textImageService = (TextImageService) context
 				.getBean("textImageService");
 		TextUrlInfo textUrl = textImageService.queryUrl("123", data,
 				styleConfig);
+		System.out.println("build image use "
+				+ (System.currentTimeMillis() - start) + " ms");
+		start = System.currentTimeMillis();
 		buildHtml(textUrl);
+		System.out.println("build html use "
+				+ (System.currentTimeMillis() - start) + " ms");
+		// }
+
 	}
 }

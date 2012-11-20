@@ -41,6 +41,15 @@ public class TextImageServiceImpl implements TextImageService {
 	// 图像绘制器
 	private TextImagePainter textImagePainter;
 
+	public void init(){
+		try {
+			Class.forName(PaintEnvironment.class.getName());
+		} catch (ClassNotFoundException e) {
+			LOGGER.error("TextImageServiceImpl初始化时出错:", e);
+		}
+
+	}
+	
 	public TextImageInfo buildImage(Map<String, String> textMap,
 			StyleConfig styleConfig) throws TextImageException {
 		try {
@@ -198,7 +207,7 @@ public class TextImageServiceImpl implements TextImageService {
 		// 创建新版本数据
 		else {
 			if (LOGGER.isDebugEnabled()) {
-				Profiler.getInstance().begin();
+				Profiler.getInstance().begin("buildimage");
 			}
 			List<String> oldUrlList = null;
 			if (oldTextUrl != null) {
@@ -237,8 +246,8 @@ public class TextImageServiceImpl implements TextImageService {
 				}
 			}
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("build textimage finished, use "
-						+ Profiler.getInstance().getMillisInterval() + " ms");
+				LOGGER.debug("buildimage finished, use "
+						+ Profiler.getInstance().getMillisInterval("buildimage") + " ms");
 			}
 			return textUrlInfo;
 		}

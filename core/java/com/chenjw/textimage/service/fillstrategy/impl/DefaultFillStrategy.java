@@ -17,14 +17,23 @@ public class DefaultFillStrategy implements FillStrategy {
 	private CompactFillStrategy compactFillStrategy = new CompactFillStrategy();
 	private FixPositionFillStrategy fixPositionFillStrategy = new FixPositionFillStrategy();
 
-	private boolean isFixPosition(TextMetaInfo textInfo, StyleConfig styleConfig) {
+	private boolean isFixPosition(TextMetaInfo textInfo, StyleConfig styleConfig) throws TextImageException {
+		// 0 初始化，1 有position 2 没positon
+		boolean isInit=false;
+		boolean isPos=false;
 		for (String key : textInfo.getTextFieldMap().keySet()) {
 			TextPosition textPosition = styleConfig.getPositionMap().get(key);
-			if (textPosition == null) {
-				return false;
+			if(!isInit){
+				isInit=true;
+				isPos=textPosition!=null;
+			}
+			else{
+				if(isPos!=(textPosition!=null)){
+					throw new TextImageException("必须所有的字段都设置position，或都不设置position，（"+key+"）");
+				}
 			}
 		}
-		return true;
+		return isPos;
 	}
 
 	@Override

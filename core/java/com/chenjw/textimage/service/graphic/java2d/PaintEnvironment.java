@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +33,7 @@ public abstract class PaintEnvironment {
 	}
 
 	private static final Set<String> SUPPORTED_FONTNAME;
-
+	private static final Locale FONT_LOCALE=Locale.CHINA;
 	/**
 	 * 判断当前环境是否支持某字体
 	 * 
@@ -54,7 +55,7 @@ public abstract class PaintEnvironment {
 			in = PaintEnvironment.class.getClassLoader().getResourceAsStream(
 					path);
 			Font f = Font.createFont(Font.TRUETYPE_FONT, in);
-			String fontName = f.getFontName();
+			String fontName = f.getFontName(FONT_LOCALE);
 			if (isSupportFont(fontName)) {
 				LOGGER.warn("font " + fontName + " already registered!");
 			} else {
@@ -78,7 +79,7 @@ public abstract class PaintEnvironment {
 			}
 		}
 	}
-
+	
 	static {
 		// 初始化fontRenderContext,还有其他方式获得fontRenderContext吗？
 		BufferedImage image = new BufferedImage(1, 1,
@@ -89,7 +90,7 @@ public abstract class PaintEnvironment {
 		SUPPORTED_FONTNAME = new HashSet<String>();
 		for (Font font : GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getAllFonts()) {
-			SUPPORTED_FONTNAME.add(font.getFontName());
+			SUPPORTED_FONTNAME.add(font.getFontName(FONT_LOCALE));
 		}
 
 		String path = StringUtils.replace(PaintEnvironment.class.getPackage()

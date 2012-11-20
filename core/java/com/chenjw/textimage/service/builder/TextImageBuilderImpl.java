@@ -55,23 +55,58 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 		/****************************
 		 * 预处理文字，包括分割文字和计算每小段文字的长和宽
 		 ***************************/
+		if (LOGGER.isDebugEnabled()) {
+			Profiler.getInstance().begin("preprocess");
+		}
 		preprocess(context, painter, textLineStrMap, styleStrTextLineStrMap);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("preprocess finished, use "
+					+ Profiler.getInstance().getMillisInterval("preprocess") + " ms");
+		}
 		/****************************
 		 * 尝试填充画布，计算每个textLine的填充位置，返回所需画布的尺寸
 		 ***************************/
+		if (LOGGER.isDebugEnabled()) {
+			Profiler.getInstance().begin("tryFillCanvas");
+		}
 		tryFillCanvas(context);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("tryFillCanvas finished, use "
+					+ Profiler.getInstance().getMillisInterval("tryFillCanvas") + " ms");
+		}
 		/****************************
 		 * 创建所需画布
 		 ***************************/
+		if (LOGGER.isDebugEnabled()) {
+			Profiler.getInstance().begin("createCanvas");
+		}
 		createCanvas(context, painter);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("createCanvas finished, use "
+					+ Profiler.getInstance().getMillisInterval("createCanvas") + " ms");
+		}
 		/****************************
 		 * 在画布上绘制文字
 		 ***************************/
+		if (LOGGER.isDebugEnabled()) {
+			Profiler.getInstance().begin("drawText");
+		}
 		drawText(context, painter, textLineStrMap);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("drawText finished, use "
+					+ Profiler.getInstance().getMillisInterval("drawText") + " ms");
+		}
 		/****************************
 		 * 生成图像
 		 ***************************/
+		if (LOGGER.isDebugEnabled()) {
+			Profiler.getInstance().begin("outputImage");
+		}
 		outputImage(context);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("outputImage finished, use "
+					+ Profiler.getInstance().getMillisInterval("outputImage") + " ms");
+		}
 	}
 
 	/**
@@ -262,10 +297,12 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 			List<TextCanvas> textCanvasList = context.getTextCanvasList();
 			List<byte[]> imageList = new ArrayList<byte[]>();
 			for (int i = 0, s = textCanvasList.size(); i < s; i++) {
+				TextCanvas canvas=textCanvasList.get(i);
 				ByteArrayOutputStream os = null;
 				try {
+					//19951
 					os = new ByteArrayOutputStream();
-					textCanvasList.get(i).buildImage(os);
+					canvas.buildImage(os);
 					os.flush();
 					imageList.add(os.toByteArray());
 				} finally {

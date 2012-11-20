@@ -5,7 +5,7 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"
 	default-autowire="byName">
 
-	<bean id="textImageService" class="com.chenjw.textimage.service.impl.TextImageServiceImpl" >
+	<bean id="textImageService" class="com.chenjw.textimage.service.impl.TextImageServiceImpl" init-method="init" >
 		<property name="textImageStore" ref="textImageStore"></property>
 		<property name="textImageBuilder" ref="textImageBuilder"></property>
 		<property name="textImagePainter" ref="textImagePainter"></property>

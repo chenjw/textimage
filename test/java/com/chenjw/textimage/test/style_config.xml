@@ -14,7 +14,7 @@
 		<is-italic>false</is-italic>
 		<is-antialias>false</is-antialias>
 		<color>red</color>
-		<background-color>green</background-color>
+		
 	</class>
 
 	<class id="green" >
@@ -28,13 +28,14 @@
 		<is-italic>false</is-italic>
 		<is-antialias>false</is-antialias>
 		<color>blue</color>
+		<background-color>green</background-color>
 	</class>
 	
 	<mapping key="name" class="green"/>
-	<position key="name" x="30" y="0" />
+	<position key="name" x="100" y="1" />
 	<!-- mapping key="msg" class="green"/-->
-	<position key="msg" x="0" y="100" />
+	<position key="msg" x="200" y="100" />
 	<mapping key="address" class="green"/>
-	<position key="address" x="0" y="200" />
+	<position key="address" x="1" y="200" />
 	
 </style-config>
