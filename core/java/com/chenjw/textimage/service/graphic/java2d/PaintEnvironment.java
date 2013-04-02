@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.chenjw.logger.Logger;
@@ -100,5 +102,7 @@ public abstract class PaintEnvironment {
 		loadFont(path + "simsun.ttc");
 		// 英文
 		loadFont(path + "tahoma.ttf");
+		// 设置imageio不使用文件cache
+		ImageIO.setUseCache(false);
 	}
 }

@@ -49,16 +49,13 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 
 		// 保存textLine到文字片段的映射
 		Map<TextLine, String> textLineStrMap = new HashMap<TextLine, String>();
-		// 缓存已绘制的文本，为了使同一文本在画布上只出现一次
-		Map<TextStyle, Map<String, TextLine>> styleStrTextLineStrMap = new HashMap<TextStyle, Map<String, TextLine>>();
-
 		/****************************
 		 * 预处理文字，包括分割文字和计算每小段文字的长和宽
 		 ***************************/
 		if (LOGGER.isDebugEnabled()) {
 			Profiler.getInstance().begin("preprocess");
 		}
-		preprocess(context, painter, textLineStrMap, styleStrTextLineStrMap);
+		preprocess(context, painter, textLineStrMap);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("preprocess finished, use "
 					+ Profiler.getInstance().getMillisInterval("preprocess") + " ms");
@@ -120,8 +117,7 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 	 * @throws TextImageException
 	 */
 	private void preprocess(TextImageContext context, TextImagePainter painter,
-			Map<TextLine, String> textLineStrMap,
-			Map<TextStyle, Map<String, TextLine>> styleStrTextLineStrMap)
+			Map<TextLine, String> textLineStrMap)
 			throws TextImageException {
 		TextMetaInfo textInfo = new TextMetaInfo();
 		// 计算宽度和高度
@@ -132,12 +128,6 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 				TextStyle style = StyleConfigHelper.getTextStyle(
 						context.getStyleConfig(), key);
 				TextField textField = new TextField();
-				Map<String, TextLine> strTextLineMap = styleStrTextLineStrMap
-						.get(style);
-				if (strTextLineMap == null) {
-					strTextLineMap = new HashMap<String, TextLine>();
-					styleStrTextLineStrMap.put(style, strTextLineMap);
-				}
 				List<String> strList = new ArrayList<String>();
 				List<TextLine> textLineList = new ArrayList<TextLine>();
 				// 计算长宽
@@ -146,13 +136,7 @@ public class TextImageBuilderImpl implements TextImageBuilder {
 				for (int i = 0, s = textLineList.size(); i < s; i++) {
 					String str = strList.get(i);
 					TextLine testLine = textLineList.get(i);
-					// 如果已经存在了
-					if (strTextLineMap.containsKey(str)) {
-						testLine = strTextLineMap.get(str);
-					} else {
-						textLineStrMap.put(testLine, str);
-						strTextLineMap.put(str, testLine);
-					}
+					textLineStrMap.put(testLine, str);
 					textField.getTextLines().add(testLine);
 				}
 				textInfo.getTextFieldMap().put(key, textField);
