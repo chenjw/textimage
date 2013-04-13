@@ -38,9 +38,9 @@ public class StyleConfig {
 	 * </ul>
 	 * **/
 	// 背景颜色
-	private Color backgroundColor = Color.black;
+	private Color backgroundColor;
 	// 背景图片
-	private byte[] backgroundImage = null;
+	private byte[] backgroundImage ;
 
 	/** 画布样式 结束 **/
 	// 样式版本，框架会根据版本号来判断样式是否变化，如果样式有变化需要重新生成图片，请修改样式版本的值

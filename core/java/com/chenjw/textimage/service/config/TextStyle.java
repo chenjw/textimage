@@ -29,6 +29,8 @@ public class TextStyle {
 	private int lineHeight = TextImageConstants.SIZE_NOT_SET;
 	// 行宽
 	private int lineWidth = TextImageConstants.SIZE_NOT_SET;
+	// 行宽
+	private int maxLineWidth = TextImageConstants.SIZE_NOT_SET;
 	// 左右居中方式
 	private HAlignEnum hAlign = HAlignEnum.LEFT;
 	// 上下居中方式
@@ -125,6 +127,14 @@ public class TextStyle {
 
 	public void setVAlign(VAlignEnum vAlign) {
 		this.vAlign = vAlign;
+	}
+
+	public int getMaxLineWidth() {
+		return maxLineWidth;
+	}
+
+	public void setMaxLineWidth(int maxLineWidth) {
+		this.maxLineWidth = maxLineWidth;
 	}
 
 }

@@ -25,21 +25,20 @@ import com.chenjw.textimage.service.config.constants.VAlignEnum;
  * @author chenjw 2012-8-27 下午4:47:46
  */
 public class ConfigParser {
-    public static StyleConfig parse(String path){
-        InputStream is = null;
-        try {
-            is = ConfigParser.class.getClassLoader().getResourceAsStream(path);
-            StyleConfig styleConfig = ConfigParser.parse(is);
-            return styleConfig;
-        } finally {
-            try {
+	public static StyleConfig parse(String path) {
+		InputStream is = null;
+		try {
+			is = ConfigParser.class.getClassLoader().getResourceAsStream(path);
+			StyleConfig styleConfig = ConfigParser.parse(is);
+			return styleConfig;
+		} finally {
+			try {
 				is.close();
 			} catch (IOException e) {
 			}
-        }
-    }
-	
-	
+		}
+	}
+
 	public static StyleConfig parse(InputStream is) {
 		try {
 			StyleConfig styleConfig = new StyleConfig();
@@ -61,83 +60,88 @@ public class ConfigParser {
 	}
 
 	private static void parseConfig(StyleConfig styleConfig, Element doc) {
-		NodeList list = doc.getElementsByTagName("is-fix-size");
-
-		if (list.getLength() > 0) {
-			styleConfig.setIsFixSize(Boolean.parseBoolean(list.item(0)
-					.getTextContent()));
-		}
-		list = doc.getElementsByTagName("canvas-width");
-		if (list.getLength() > 0) {
-			styleConfig.setCanvasWidth(Integer.parseInt(list.item(0)
-					.getTextContent()));
-		}
-
-		list = doc.getElementsByTagName("canvas-height");
-		if (list.getLength() > 0) {
-			styleConfig.setCanvasHeight(Integer.parseInt(list.item(0)
-					.getTextContent()));
-		}
-		list = doc.getElementsByTagName("background-color");
-		if (list.getLength() > 0) {
-			styleConfig.setBackgroundColor(parseColor(list.item(0)
-					.getTextContent()));
-		}
-		list = doc.getElementsByTagName("background-image");
-		if (list.getLength() > 0) {
-			String url = list.item(0).getTextContent();
-			InputStream is = ConfigParser.class.getResourceAsStream(url);
-			try {
-				styleConfig.setBackgroundImage(IOUtils.toByteArray(is));
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				IOUtils.closeQuietly(is);
+		NodeList childs = doc.getChildNodes();
+		for (int i = 0; i < childs.getLength(); i++) {
+			Node node = childs.item(i);
+			if ("is-fix-size".equals(node.getNodeName())) {
+				styleConfig.setIsFixSize(Boolean.parseBoolean(node
+						.getTextContent()));
+			} else if ("canvas-width".equals(node.getNodeName())) {
+				styleConfig.setCanvasWidth(Integer.parseInt(node
+						.getTextContent()));
+			} else if ("canvas-height".equals(node.getNodeName())) {
+				styleConfig.setCanvasHeight(Integer.parseInt(node
+						.getTextContent()));
+			} else if ("background-color".equals(node.getNodeName())) {
+				styleConfig
+						.setBackgroundColor(parseColor(node.getTextContent()));
+			} else if ("background-image".equals(node.getNodeName())) {
+				String url = node.getTextContent();
+				InputStream is = ConfigParser.class.getResourceAsStream(url);
+				try {
+					styleConfig.setBackgroundImage(IOUtils.toByteArray(is));
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					IOUtils.closeQuietly(is);
+				}
 			}
 		}
 	}
 
 	private static void parseClasses(StyleConfig styleConfig, Element doc) {
-		NodeList list = doc.getElementsByTagName("class");
-		for (int i = 0; i < list.getLength(); i++) {
-			String id = list.item(i).getAttributes().getNamedItem("id")
-					.getTextContent();
-			TextStyle textStyle = parseTextStyle(list.item(i));
-			if ("default".equals(id)) {
-				styleConfig.setDefaultStyle(textStyle);
-			} else {
-				styleConfig.addClass(id, textStyle);
+		NodeList childs = doc.getChildNodes();
+		for (int i = 0; i < childs.getLength(); i++) {
+			Node node = childs.item(i);
+			if ("class".equals(node.getNodeName())) {
+				String id = node.getAttributes().getNamedItem("id")
+						.getTextContent();
+				TextStyle textStyle = parseTextStyle(node);
+				if ("default".equals(id)) {
+					styleConfig.setDefaultStyle(textStyle);
+				} else {
+					styleConfig.addClass(id, textStyle);
+				}
 			}
+
 		}
 	}
 
 	private static void parseClassMappings(StyleConfig styleConfig, Element doc) {
-		NodeList list = doc.getElementsByTagName("mapping");
-		for (int i = 0; i < list.getLength(); i++) {
-			String key = list.item(i).getAttributes().getNamedItem("key")
-					.getTextContent();
-			String ref = list.item(i).getAttributes().getNamedItem("class")
-					.getTextContent();
-			styleConfig.addClassMapping(key, ref);
+		NodeList childs = doc.getChildNodes();
+		for (int i = 0; i < childs.getLength(); i++) {
+			Node node = childs.item(i);
+			if ("mapping".equals(node.getNodeName())) {
+				String key = node.getAttributes().getNamedItem("key")
+						.getTextContent();
+				String ref = node.getAttributes().getNamedItem("class")
+						.getTextContent();
+				styleConfig.addClassMapping(key, ref);
+			}
 		}
 	}
 
 	private static void parsePositions(StyleConfig styleConfig, Element doc) {
-		NodeList list = doc.getElementsByTagName("position");
-		for (int i = 0; i < list.getLength(); i++) {
-			TextPosition position = new TextPosition();
-			String key = list.item(i).getAttributes().getNamedItem("key")
-					.getTextContent();
-			if (list.item(i).getAttributes().getNamedItem("x") != null) {
-				position.setX(Integer.parseInt(list.item(i).getAttributes()
-						.getNamedItem("x").getTextContent()));
-			}
-			if (list.item(i).getAttributes().getNamedItem("y") != null) {
-				position.setY(Integer.parseInt(list.item(i).getAttributes()
-						.getNamedItem("y").getTextContent()));
-			}
 
-			styleConfig.addTextPosition(key, position);
+		NodeList childs = doc.getChildNodes();
+		for (int i = 0; i < childs.getLength(); i++) {
+			Node node = childs.item(i);
+			if ("position".equals(node.getNodeName())) {
+
+				TextPosition position = new TextPosition();
+				String key = node.getAttributes().getNamedItem("key")
+						.getTextContent();
+				if (node.getAttributes().getNamedItem("x") != null) {
+					position.setX(Integer.parseInt(node.getAttributes()
+							.getNamedItem("x").getTextContent()));
+				}
+				if (node.getAttributes().getNamedItem("y") != null) {
+					position.setY(Integer.parseInt(node.getAttributes()
+							.getNamedItem("y").getTextContent()));
+				}
+
+				styleConfig.addTextPosition(key, position);
+			}
 		}
 	}
 
@@ -154,8 +158,8 @@ public class ConfigParser {
 				style.setLineWidth(Integer.parseInt(n.getTextContent()));
 			} else if ("line-height".equals(n.getNodeName())) {
 				style.setLineHeight(Integer.parseInt(n.getTextContent()));
-			} else if ("line-height".equals(n.getNodeName())) {
-				style.setLineHeight(Integer.parseInt(n.getTextContent()));
+			} else if ("max-line-width".equals(n.getNodeName())) {
+				style.setMaxLineWidth(Integer.parseInt(n.getTextContent()));
 			} else if ("h-align".equals(n.getNodeName())) {
 				style.setHAlign(HAlignEnum.valueOf(n.getTextContent()));
 			} else if ("v-align".equals(n.getNodeName())) {

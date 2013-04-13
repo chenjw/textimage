@@ -50,7 +50,7 @@ public class Java2dTextImagePainterImpl implements TextImagePainter {
 		// 按style中定义的lineWidth分割字符串
 		while (lineBreakMeasurer.getPosition() < text.length()) {
 			int start = lineBreakMeasurer.getPosition();
-			int lineWidth = style.getLineWidth();
+			int lineWidth = style.getMaxLineWidth();
 			if (lineWidth == TextImageConstants.SIZE_NOT_SET) {
 				lineWidth = Integer.MAX_VALUE;
 			}
