@@ -172,7 +172,7 @@ public class TextImageServiceImpl implements TextImageService {
 				}
 			}
 		}
-		// 清除值为Null的项
+		// 清除值为Null的项和非字符串的项
 		@SuppressWarnings("unchecked")
 		Entry<String, String>[] entrys = textMap.entrySet().toArray(
 				new Entry[textMap.size()]);

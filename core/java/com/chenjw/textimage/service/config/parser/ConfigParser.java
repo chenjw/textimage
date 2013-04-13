@@ -1,6 +1,7 @@
 package com.chenjw.textimage.service.config.parser;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,21 @@ import com.chenjw.textimage.service.config.constants.VAlignEnum;
  * @author chenjw 2012-8-27 下午4:47:46
  */
 public class ConfigParser {
+    public static StyleConfig parse(String path){
+        InputStream is = null;
+        try {
+            is = ConfigParser.class.getClassLoader().getResourceAsStream(path);
+            StyleConfig styleConfig = ConfigParser.parse(is);
+            return styleConfig;
+        } finally {
+            try {
+				is.close();
+			} catch (IOException e) {
+			}
+        }
+    }
+	
+	
 	public static StyleConfig parse(InputStream is) {
 		try {
 			StyleConfig styleConfig = new StyleConfig();
